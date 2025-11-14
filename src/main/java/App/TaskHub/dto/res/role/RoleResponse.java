@@ -1,4 +1,4 @@
-package App.TaskHub.dto.res;
+package App.TaskHub.dto.res.role;
 
 import java.util.UUID;
 

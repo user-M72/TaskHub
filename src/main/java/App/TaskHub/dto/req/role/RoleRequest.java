@@ -1,4 +1,4 @@
-package App.TaskHub.dto.req;
+package App.TaskHub.dto.req.role;
 
 public record RoleRequest(
 

@@ -1,7 +1,7 @@
 package App.TaskHub.api;
 
-import App.TaskHub.dto.req.RoleRequest;
-import App.TaskHub.dto.res.RoleResponse;
+import App.TaskHub.dto.req.role.RoleRequest;
+import App.TaskHub.dto.res.role.RoleResponse;
 import App.TaskHub.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

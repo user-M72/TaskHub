@@ -1,7 +1,7 @@
 package App.TaskHub.service.serviceImpl;
 
-import App.TaskHub.dto.req.RoleRequest;
-import App.TaskHub.dto.res.RoleResponse;
+import App.TaskHub.dto.req.role.RoleRequest;
+import App.TaskHub.dto.res.role.RoleResponse;
 import App.TaskHub.entity.Role;
 import App.TaskHub.mapper.RoleMapper;
 import App.TaskHub.repository.RoleRepository;
