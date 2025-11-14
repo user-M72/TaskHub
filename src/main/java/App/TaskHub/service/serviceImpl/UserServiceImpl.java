@@ -1,7 +1,7 @@
 package App.TaskHub.service.serviceImpl;
 
-import App.TaskHub.dto.req.UserRequest;
-import App.TaskHub.dto.res.UserResponse;
+import App.TaskHub.dto.req.user.UserRequest;
+import App.TaskHub.dto.res.user.UserResponse;
 import App.TaskHub.entity.Role;
 import App.TaskHub.entity.User;
 import App.TaskHub.mapper.UserMapper;

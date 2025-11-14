@@ -1,15 +1,19 @@
-package App.TaskHub.dto.req;
+package App.TaskHub.dto.res.user;
 
-import java.util.List;
+import App.TaskHub.entity.Role;
+
+import java.util.Set;
 import java.util.UUID;
 
-public record UserRequest(
+public record UserResponse(
 
+        UUID id,
         String firstName,
         String lastName,
         String username,
         String password,
         String phoneNumber,
         String email,
-        List<UUID> roleIds
+        Set<Role> roles
+
 ) {}

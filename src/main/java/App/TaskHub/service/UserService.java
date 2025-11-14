@@ -1,7 +1,7 @@
 package App.TaskHub.service;
 
-import App.TaskHub.dto.req.UserRequest;
-import App.TaskHub.dto.res.UserResponse;
+import App.TaskHub.dto.req.user.UserRequest;
+import App.TaskHub.dto.res.user.UserResponse;
 
 import java.util.List;
 import java.util.UUID;

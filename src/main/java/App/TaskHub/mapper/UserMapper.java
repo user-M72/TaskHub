@@ -1,7 +1,7 @@
 package App.TaskHub.mapper;
 
-import App.TaskHub.dto.req.UserRequest;
-import App.TaskHub.dto.res.UserResponse;
+import App.TaskHub.dto.req.user.UserRequest;
+import App.TaskHub.dto.res.user.UserResponse;
 import App.TaskHub.entity.Role;
 import App.TaskHub.entity.User;
 import org.mapstruct.Mapper;

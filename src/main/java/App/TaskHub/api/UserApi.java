@@ -1,7 +1,7 @@
 package App.TaskHub.api;
 
-import App.TaskHub.dto.req.UserRequest;
-import App.TaskHub.dto.res.UserResponse;
+import App.TaskHub.dto.req.user.UserRequest;
+import App.TaskHub.dto.res.user.UserResponse;
 import App.TaskHub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
