@@ -16,7 +16,7 @@ public interface CommentService {
 
     CommentResponse updated(UUID id, CommentRequest request);
 
-    Void deleted(UUID id);
+    void deleted(UUID id);
 
 
 }
