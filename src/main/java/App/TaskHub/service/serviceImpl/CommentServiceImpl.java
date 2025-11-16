@@ -2,12 +2,14 @@ package App.TaskHub.service.serviceImpl;
 
 import App.TaskHub.dto.req.comment.CommentRequest;
 import App.TaskHub.dto.res.comment.CommentResponse;
+import App.TaskHub.entity.Comment;
 import App.TaskHub.mapper.CommentMapper;
 import App.TaskHub.repository.CommentRepository;
 import App.TaskHub.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -29,12 +31,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse getById(UUID id) {
-        return null;
+        Comment comment = repository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Comment not found by id: " + id));
+        return mapper.toDto(comment);
     }
 
     @Override
     public CommentResponse created(CommentRequest request) {
-        return null;
+        Comment comment = mapper.toEntity(request);
+        comment.setCreatedAt(LocalDateTime.now());
+        return mapper.toDto(repository.save(comment));
     }
 
     @Override
@@ -43,7 +49,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Void deleted(UUID id) {
-        return null;
+    public void deleted(UUID id) {
+        if (!repository.existsById(id)){
+            throw new RuntimeException("Comment not found by id: " + id);
+        }
+        repository.deleteById(id);
     }
 }

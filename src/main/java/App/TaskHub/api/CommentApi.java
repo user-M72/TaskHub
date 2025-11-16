@@ -1,13 +1,15 @@
 package App.TaskHub.api;
 
+import App.TaskHub.dto.req.comment.CommentRequest;
 import App.TaskHub.dto.res.comment.CommentResponse;
 import App.TaskHub.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/comment/v1")
@@ -19,5 +21,29 @@ public class CommentApi {
     @GetMapping
     public List<CommentResponse> get(){
         return service.get();
+    }
+
+    @GetMapping("/{commentId}")
+    public CommentResponse getById(@PathVariable("commentId")UUID id){
+        return service.getById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<CommentResponse> created(@RequestBody CommentRequest request){
+        CommentResponse created = service.created(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PutMapping("/{commentId}")
+    public CommentResponse updated(@PathVariable("commentId") UUID id,
+                                   @RequestBody CommentRequest request){
+
+        return null;
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleted(@PathVariable("commentId") UUID id){
+        service.deleted(id);
+        return ResponseEntity.noContent().build();
     }
 }

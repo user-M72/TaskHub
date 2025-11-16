@@ -1,10 +1,10 @@
 package App.TaskHub.dto.req.task;
 
-import App.TaskHub.entity.User;
 import App.TaskHub.entity.enums.TaskPriority;
 import App.TaskHub.entity.enums.TaskStatus;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record TaskRequest(
 
@@ -13,8 +13,8 @@ public record TaskRequest(
         TaskStatus status,
         TaskPriority priority,
         String project,
-        User assigneeId,
-        User creatorId,
+        UUID assigneeId,
+        UUID creatorId,
 
         LocalDateTime createdAt,
         LocalDateTime updatedAt
