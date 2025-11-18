@@ -1,6 +1,8 @@
 package App.TaskHub.service.serviceImpl;
 
+import App.TaskHub.dto.req.LoginRequest;
 import App.TaskHub.dto.req.user.UserRequest;
+import App.TaskHub.dto.res.login.LoginResponse;
 import App.TaskHub.dto.res.user.UserResponse;
 import App.TaskHub.entity.Role;
 import App.TaskHub.entity.User;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    private final String errorLogin = "Invalid username or password";
 
     @Autowired
     private UserRepository repository;
@@ -84,5 +88,17 @@ public class UserServiceImpl implements UserService {
         User user = mapper.toEntity(request, roles, passwordEncoder.encode(request.password()));
 
         return mapper.toDto(repository.save(user));
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        User user = repository.findByUsername(request.username())
+                .orElseThrow(()-> new RuntimeException(errorLogin));
+
+        if (!passwordEncoder.matches(request.password(), user.getPassword())){
+            throw new RuntimeException(errorLogin);
+        }
+
+        return mapper.toLoginDto(user);
     }
 }

@@ -1,6 +1,8 @@
 package App.TaskHub.api;
 
+import App.TaskHub.dto.req.LoginRequest;
 import App.TaskHub.dto.req.user.UserRequest;
+import App.TaskHub.dto.res.login.LoginResponse;
 import App.TaskHub.dto.res.user.UserResponse;
 import App.TaskHub.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +50,15 @@ public class UserApi {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody UserRequest request){
         return ResponseEntity.ok(userService.register(request));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request){
+        try {
+            LoginResponse response = userService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }

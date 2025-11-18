@@ -1,6 +1,7 @@
 package App.TaskHub.mapper;
 
 import App.TaskHub.dto.req.user.UserRequest;
+import App.TaskHub.dto.res.login.LoginResponse;
 import App.TaskHub.dto.res.user.UserResponse;
 import App.TaskHub.entity.Role;
 import App.TaskHub.entity.User;
@@ -10,6 +11,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
@@ -23,4 +25,13 @@ public interface UserMapper {
 
     @Mapping(target = "roles", source = "roles")
     void updateFromDto(UserRequest request, Set<Role> roles, @MappingTarget User user);
+
+    default LoginResponse toLoginDto(User user) {
+        return new LoginResponse(
+                user.getUsername(),
+                user.getRoles().stream()
+                        .map(Role::getName)
+                        .collect(Collectors.toSet())
+        );
+    }
 }
