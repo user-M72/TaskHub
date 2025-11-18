@@ -18,4 +18,6 @@ public interface UserService {
     UserResponse update(UUID id, UserRequest request);
 
     void delete(UUID id);
+
+    UserResponse register(UserRequest request);
 }

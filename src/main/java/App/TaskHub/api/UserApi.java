@@ -44,4 +44,9 @@ public class UserApi {
         userService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserResponse> register(@RequestBody UserRequest request){
+        return ResponseEntity.ok(userService.register(request));
+    }
 }
