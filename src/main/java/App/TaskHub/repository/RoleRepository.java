@@ -1,11 +1,12 @@
 package App.TaskHub.repository;
 
 import App.TaskHub.entity.Role;
+import App.TaskHub.entity.enums.Roles;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface RoleRepository extends JpaRepository<Role, UUID> {
-    Optional<Role> findByName(String name);
+    Optional<Role> findByName(Roles name);
 }

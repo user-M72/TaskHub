@@ -30,7 +30,7 @@ public interface UserMapper {
         return new LoginResponse(
                 user.getUsername(),
                 user.getRoles().stream()
-                        .map(Role::getName)
+                        .map(role -> role.getName().name())
                         .collect(Collectors.toSet())
         );
     }

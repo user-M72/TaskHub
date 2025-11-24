@@ -6,6 +6,7 @@ import App.TaskHub.dto.res.login.LoginResponse;
 import App.TaskHub.dto.res.user.UserResponse;
 import App.TaskHub.entity.Role;
 import App.TaskHub.entity.User;
+import App.TaskHub.entity.enums.Roles;
 import App.TaskHub.mapper.UserMapper;
 import App.TaskHub.repository.RoleRepository;
 import App.TaskHub.repository.UserRepository;
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Username already taken");
         }
 
-        Role userRole = roleRepository.findByName("User").orElseThrow(()-> new RuntimeException("Role User is not"));
+        Role userRole = roleRepository.findByName(Roles.USER).orElseThrow(()-> new RuntimeException("Role User is not"));
         Set<Role> roles = Set.of(userRole);
 
         User user = mapper.toEntity(request, roles, passwordEncoder.encode(request.password()));

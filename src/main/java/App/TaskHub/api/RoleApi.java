@@ -2,6 +2,7 @@ package App.TaskHub.api;
 
 import App.TaskHub.dto.req.role.RoleRequest;
 import App.TaskHub.dto.res.role.RoleResponse;
+import App.TaskHub.entity.enums.Roles;
 import App.TaskHub.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,11 @@ public class RoleApi {
     public ResponseEntity<Void> delete(@PathVariable("roleId") UUID id){
         roleService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/roleStatuses")
+    public Roles[] getRoleStatus(){
+        return Roles.values();
     }
 }
 
