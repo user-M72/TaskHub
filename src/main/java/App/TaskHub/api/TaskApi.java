@@ -7,7 +7,6 @@ import App.TaskHub.entity.enums.TaskStatus;
 import App.TaskHub.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,12 +49,12 @@ public class TaskApi {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/statues")
+    @GetMapping("/statuses")
     public TaskStatus[] getStatuses(){
         return TaskStatus.values();
     }
 
-    @GetMapping("/priorities")
+    @GetMapping("/priorityStatuses")
     public TaskPriority[] getPriorities(){
         return TaskPriority.values();
     }
