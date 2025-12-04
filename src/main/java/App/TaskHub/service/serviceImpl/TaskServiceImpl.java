@@ -3,13 +3,14 @@ package App.TaskHub.service.serviceImpl;
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
 import App.TaskHub.entity.Task;
+import App.TaskHub.entity.User;
 import App.TaskHub.mapper.TaskMapper;
 import App.TaskHub.repository.TaskRepository;
+import App.TaskHub.repository.UserRepository;
 import App.TaskHub.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,6 +22,8 @@ public class TaskServiceImpl implements TaskService {
     private TaskRepository repository;
     @Autowired
     private TaskMapper mapper;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public List<TaskResponse> get() {
@@ -40,8 +43,19 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public TaskResponse created(TaskRequest request) {
         Task task = mapper.toEntity(request);
-        task.setCreatedAt(LocalDateTime.now());
-        task.setUpdatedAt(LocalDateTime.now());
+
+        if (request.assigneeId()!=null){
+            User assignee = userRepository.findById(request.assigneeId())
+                    .orElseThrow(()-> new RuntimeException("Assignee not found by id: " + request.assigneeId()));
+            task.setAssignee(assignee);
+        }
+
+        if (request.creatorId() != null){
+            User creator = userRepository.findById(request.creatorId())
+                    .orElseThrow(()->new RuntimeException("Creator not found by id: " + request.creatorId()));
+            task.setCreator(creator);
+        }
+
         return mapper.toDto(repository.save(task));
     }
 
@@ -50,7 +64,8 @@ public class TaskServiceImpl implements TaskService {
         Task task = repository.findById(id)
                 .orElseThrow(()-> new RuntimeException("Task not found by id: " + id));
 
-        return null;
+        mapper.updateFromDto(request, task);
+        return mapper.toDto(repository.save(task));
     }
 
     @Override

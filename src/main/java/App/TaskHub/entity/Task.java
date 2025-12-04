@@ -36,7 +36,4 @@ public class Task extends BaseDomain<UUID> {
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }
