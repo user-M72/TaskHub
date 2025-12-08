@@ -1,7 +1,6 @@
 package App.TaskHub.dto.res.task;
 
 
-import App.TaskHub.entity.User;
 import App.TaskHub.entity.enums.TaskPriority;
 import App.TaskHub.entity.enums.TaskStatus;
 
@@ -14,7 +13,7 @@ public record TaskResponse(
         TaskStatus status,
         TaskPriority priority,
         String project,
-        User assigneeId,
-        User creatorId
+        UUID assigneeId,
+        UUID creatorId
 
 ) {}

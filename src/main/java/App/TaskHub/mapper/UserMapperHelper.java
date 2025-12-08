@@ -13,9 +13,9 @@ public class UserMapperHelper {
     @Autowired
     private UserRepository userRepository;
 
-    public User fromUUID(UUID id){
+    public User toEntity(UUID id) {
         if (id == null) return null;
         return userRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("User not found: " + id));
+                .orElseThrow(() -> new RuntimeException("User not found by id: " + id));
     }
 }
