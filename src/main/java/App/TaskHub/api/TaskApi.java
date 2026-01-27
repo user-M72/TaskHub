@@ -6,24 +6,24 @@ import App.TaskHub.entity.enums.TaskPriority;
 import App.TaskHub.entity.enums.TaskStatus;
 import App.TaskHub.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/task/v1")
+@RequestMapping("/api/task/v1")
 public class TaskApi {
 
     @Autowired
     private TaskService service;
 
     @GetMapping
-    public List<TaskResponse> get(){
-        return service.get();
-
+    public Page<TaskResponse> get(Pageable pageable){
+        return service.get(pageable);
     }
 
     @GetMapping("/{taskId}")

@@ -22,7 +22,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // ДОБАВЬТЕ эту строку
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 .build();
@@ -34,7 +34,6 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of("*"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        // НЕ добавляйте setAllowCredentials(true)
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

@@ -2,13 +2,14 @@ package App.TaskHub.service;
 
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface TaskService {
 
-    List<TaskResponse> get();
+    Page<TaskResponse> get(Pageable pageable);
 
     TaskResponse getById(UUID id);
 
