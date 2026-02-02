@@ -2,27 +2,31 @@ package App.TaskHub.api;
 
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
+import App.TaskHub.entity.Task;
 import App.TaskHub.entity.enums.TaskPriority;
 import App.TaskHub.entity.enums.TaskStatus;
 import App.TaskHub.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/task/v1")
 public class TaskApi {
 
-    @Autowired
-    private TaskService service;
+
+    private final TaskService service;
 
     @GetMapping
-    public Page<TaskResponse> get(Pageable pageable){
+    public Page<TaskResponse> get(@ParameterObject Pageable pageable){
         return service.get(pageable);
     }
 
@@ -57,6 +61,27 @@ public class TaskApi {
     @GetMapping("/priorityStatuses")
     public TaskPriority[] getPriorities(){
         return TaskPriority.values();
+    }
+
+    @PatchMapping("/{taskId}/status")
+    public ResponseEntity<?> updatedStatuses(@PathVariable("taskId") UUID id,
+                                             @RequestBody Map<String, String> request){
+        String status = request.get("status");
+        TaskStatus taskStatus = TaskStatus.valueOf(status);
+
+        Task task = service.updateStatus(id, taskStatus);
+        return ResponseEntity.ok(task);
+    }
+
+    @PatchMapping("/{taskId}/priority")
+    public ResponseEntity<?> updatedPriority(@PathVariable("taskId") UUID id,
+                                             @RequestBody Map<String, String> request){
+
+        String priority = request.get("priority");
+        TaskPriority taskPriority = TaskPriority.valueOf(priority);
+
+        Task task = service.updatePriority(id, taskPriority);
+        return ResponseEntity.ok(task);
     }
 
 }
