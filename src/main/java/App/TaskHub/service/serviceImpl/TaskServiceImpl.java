@@ -4,6 +4,8 @@ import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
 import App.TaskHub.entity.Task;
 import App.TaskHub.entity.User;
+import App.TaskHub.entity.enums.TaskPriority;
+import App.TaskHub.entity.enums.TaskStatus;
 import App.TaskHub.mapper.TaskMapper;
 import App.TaskHub.repository.TaskRepository;
 import App.TaskHub.repository.UserRepository;
@@ -72,5 +74,23 @@ public class TaskServiceImpl implements TaskService {
             throw new RuntimeException("Task not found by id: " + id);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    public Task updateStatus(UUID id, TaskStatus status) {
+        Task task = repository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Task not found"));
+
+        task.setStatus(status);
+        return repository.save(task);
+    }
+
+    @Override
+    public Task updatePriority(UUID id, TaskPriority priority) {
+        Task task = repository.findById(id)
+                .orElseThrow(()-> new RuntimeException("Task not found"));
+
+        task.setPriority(priority);
+        return repository.save(task);
     }
 }
