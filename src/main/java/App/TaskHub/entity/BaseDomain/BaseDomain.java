@@ -39,5 +39,5 @@ public abstract class BaseDomain<T extends Serializable> implements Serializable
     @LastModifiedDate
     @Column(name = "updated_date")
     protected Instant updatedDate;
-
+// created_by и updated_by ИД ползователя кто создал или изменил (отделнном методе)
 }
