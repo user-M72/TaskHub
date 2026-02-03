@@ -1,5 +1,6 @@
 package App.TaskHub.api;
 
+import App.TaskHub.dto.req.GetTaskRequest;
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
 import App.TaskHub.entity.Task;
@@ -25,9 +26,14 @@ public class TaskApi {
 
     private final TaskService service;
 
-    @GetMapping
-    public Page<TaskResponse> get(@ParameterObject Pageable pageable){
-        return service.get(pageable);
+    @GetMapping("/assignee/{id}")
+    public Page<TaskResponse> getForAssignee(@PathVariable UUID id, @ParameterObject Pageable pageable){
+        return service.getForAssignee(id, pageable);
+    }
+
+    @GetMapping("/creator/{id}")
+    public Page<TaskResponse> getForCreator(@PathVariable UUID id, @ParameterObject Pageable pageable){
+        return service.getForCreator(id, pageable);
     }
 
     @GetMapping("/{taskId}")
@@ -44,7 +50,7 @@ public class TaskApi {
     @PutMapping("/{taskId}")
     public TaskResponse updated(@PathVariable("taskId") UUID id,
                                 @RequestBody TaskRequest request){
-        return null;
+        return service.updated(id, request);
     }
 
     @DeleteMapping("/{taskId}")

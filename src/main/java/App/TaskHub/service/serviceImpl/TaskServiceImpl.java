@@ -1,5 +1,6 @@
 package App.TaskHub.service.serviceImpl;
 
+import App.TaskHub.dto.req.GetTaskRequest;
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
 import App.TaskHub.entity.Task;
@@ -28,9 +29,13 @@ public class TaskServiceImpl implements TaskService {
     private UserRepository userRepository;
 
     @Override
-    public Page<TaskResponse> get(Pageable pageable) {
-        return repository.findAll(pageable)
-                .map(mapper::toDto);
+    public Page<TaskResponse> getForAssignee(UUID assigneeId, Pageable pageable) {
+            return repository.findAllByAssigneeId(assigneeId, pageable).map(mapper::toDto);
+    }
+
+    @Override
+    public Page<TaskResponse> getForCreator(UUID creatorId, Pageable pageable) {
+            return repository.findAllByCreatorId(creatorId, pageable).map(mapper::toDto);
     }
 
     @Override

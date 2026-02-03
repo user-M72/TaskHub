@@ -1,5 +1,6 @@
 package App.TaskHub.service;
 
+import App.TaskHub.dto.req.GetTaskRequest;
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
 import App.TaskHub.entity.Task;
@@ -12,7 +13,9 @@ import java.util.UUID;
 
 public interface TaskService {
 
-    Page<TaskResponse> get(Pageable pageable);
+    Page<TaskResponse> getForAssignee(UUID assigneeId, Pageable pageable);
+
+    Page<TaskResponse> getForCreator(UUID creatorId, Pageable pageable);
 
     TaskResponse getById(UUID id);
 
