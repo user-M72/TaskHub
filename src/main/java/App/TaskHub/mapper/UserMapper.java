@@ -28,7 +28,9 @@ public interface UserMapper {
 
     default LoginResponse toLoginDto(User user) {
         return new LoginResponse(
+                user.getId(),
                 user.getUsername(),
+                user.getEmail(),
                 user.getRoles().stream()
                         .map(role -> role.getName().name())
                         .collect(Collectors.toSet())
