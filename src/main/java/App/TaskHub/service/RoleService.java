@@ -5,6 +5,7 @@ import App.TaskHub.dto.res.role.RoleResponse;
 import App.TaskHub.entity.Role;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -22,4 +23,6 @@ public interface RoleService {
     void delete(UUID id);
 
     Set<Role> getByIdList(List<UUID> uuids);
+
+    Optional<Role> getByName(String name);
 }

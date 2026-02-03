@@ -3,16 +3,14 @@ package App.TaskHub.service.serviceImpl;
 import App.TaskHub.dto.req.role.RoleRequest;
 import App.TaskHub.dto.res.role.RoleResponse;
 import App.TaskHub.entity.Role;
+import App.TaskHub.entity.enums.Roles;
 import App.TaskHub.mapper.RoleMapper;
 import App.TaskHub.repository.RoleRepository;
 import App.TaskHub.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,5 +60,10 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Set<Role> getByIdList(List<UUID> uuids) {
         return new HashSet<>(repository.findAllById(uuids));
+    }
+
+    @Override
+    public Optional<Role> getByName(String name) {
+        return repository.findByName(Roles.valueOf(name));
     }
 }
