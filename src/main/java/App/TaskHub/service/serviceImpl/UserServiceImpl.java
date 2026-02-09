@@ -12,6 +12,7 @@ import App.TaskHub.repository.RoleRepository;
 import App.TaskHub.repository.UserRepository;
 import App.TaskHub.service.RoleService;
 import App.TaskHub.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Transactional(readOnly = true)
     @Override
     public List<UserResponse> get() {
 
