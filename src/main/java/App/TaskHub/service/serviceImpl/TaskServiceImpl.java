@@ -1,6 +1,5 @@
 package App.TaskHub.service.serviceImpl;
 
-import App.TaskHub.dto.req.GetTaskRequest;
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
 import App.TaskHub.entity.Task;
@@ -11,7 +10,7 @@ import App.TaskHub.mapper.TaskMapper;
 import App.TaskHub.repository.TaskRepository;
 import App.TaskHub.repository.UserRepository;
 import App.TaskHub.service.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,14 +18,12 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
 
-    @Autowired
-    private TaskRepository repository;
-    @Autowired
-    private TaskMapper mapper;
-    @Autowired
-    private UserRepository userRepository;
+    private final TaskRepository repository;
+    private final TaskMapper mapper;
+    private final UserRepository userRepository;
 
     @Override
     public Page<TaskResponse> getForAssignee(UUID assigneeId, Pageable pageable) {

@@ -7,19 +7,18 @@ import App.TaskHub.entity.enums.Roles;
 import App.TaskHub.mapper.RoleMapper;
 import App.TaskHub.repository.RoleRepository;
 import App.TaskHub.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
-    @Autowired
-    private RoleRepository repository;
-    @Autowired
-    private RoleMapper mapper;
+    private final RoleRepository repository;
+    private final RoleMapper mapper;
 
     @Override
     public List<RoleResponse> get() {

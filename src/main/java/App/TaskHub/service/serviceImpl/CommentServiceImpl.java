@@ -11,6 +11,7 @@ import App.TaskHub.repository.CommentRepository;
 import App.TaskHub.repository.TaskRepository;
 import App.TaskHub.repository.UserRepository;
 import App.TaskHub.service.CommentService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +21,13 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
-    private CommentRepository repository;
-    @Autowired
-    private CommentMapper mapper;
-    @Autowired
-    private TaskRepository taskRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private final CommentRepository repository;
+    private final CommentMapper mapper;
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<CommentResponse> get() {

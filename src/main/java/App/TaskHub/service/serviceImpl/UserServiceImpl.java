@@ -13,6 +13,7 @@ import App.TaskHub.repository.RoleRepository;
 import App.TaskHub.repository.UserRepository;
 import App.TaskHub.service.RoleService;
 import App.TaskHub.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,20 +25,16 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final String errorLogin = "Invalid username or password";
 
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private UserMapper mapper;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
-    private RoleRepository roleRepository;
+    private final UserRepository repository;
+    private final UserMapper mapper;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
     @Transactional(readOnly = true)
     @Override

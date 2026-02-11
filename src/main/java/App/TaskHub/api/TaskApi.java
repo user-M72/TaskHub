@@ -1,6 +1,5 @@
 package App.TaskHub.api;
 
-import App.TaskHub.dto.req.GetTaskRequest;
 import App.TaskHub.dto.req.task.TaskRequest;
 import App.TaskHub.dto.res.task.TaskResponse;
 import App.TaskHub.entity.Task;
@@ -11,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,51 +28,66 @@ public class TaskApi {
     private final TaskService service;
 
     @GetMapping("/assignee/{id}")
-    public Page<TaskResponse> getForAssignee(@PathVariable UUID id, @ParameterObject Pageable pageable){
+    public Page<TaskResponse> getForAssignee(
+            @PathVariable UUID id,
+            @ParameterObject
+            @PageableDefault(
+                    sort = "createdDate",
+                    direction = Sort.Direction.DESC
+            )
+            Pageable pageable) {
+
         return service.getForAssignee(id, pageable);
     }
 
     @GetMapping("/creator/{id}")
-    public Page<TaskResponse> getForCreator(@PathVariable UUID id, @ParameterObject Pageable pageable){
+    public Page<TaskResponse> getForCreator(
+            @PathVariable UUID id,
+            @ParameterObject
+            @PageableDefault(
+                    sort = "createdDate",
+                    direction = Sort.Direction.DESC
+            )
+            Pageable pageable) {
         return service.getForCreator(id, pageable);
     }
 
     @GetMapping("/{taskId}")
-    public TaskResponse getById(@PathVariable("taskId")UUID id){
+    public TaskResponse getById(@PathVariable("taskId") UUID id) {
         return service.getById(id);
     }
 
     @PostMapping
-    public ResponseEntity<TaskResponse> create(@RequestBody TaskRequest request){
+    public ResponseEntity<TaskResponse> create(@RequestBody TaskRequest request) {
         TaskResponse create = service.created(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
     @PutMapping("/{taskId}")
     public TaskResponse updated(@PathVariable("taskId") UUID id,
-                                @RequestBody TaskRequest request){
+                                @RequestBody TaskRequest request) {
         return service.updated(id, request);
     }
 
     @DeleteMapping("/{taskId}")
-    public ResponseEntity<Void> deleted(@PathVariable("taskId") UUID id){
+    public ResponseEntity<Void> deleted(@PathVariable("taskId") UUID id) {
         service.deleted(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/statuses")
-    public TaskStatus[] getStatuses(){
+    public TaskStatus[] getStatuses() {
         return TaskStatus.values();
     }
 
     @GetMapping("/priorityStatuses")
-    public TaskPriority[] getPriorities(){
+    public TaskPriority[] getPriorities() {
         return TaskPriority.values();
     }
 
     @PatchMapping("/{taskId}/status")
     public ResponseEntity<?> updatedStatuses(@PathVariable("taskId") UUID id,
-                                             @RequestBody Map<String, String> request){
+                                             @RequestBody Map<String, String> request) {
         String status = request.get("status");
         TaskStatus taskStatus = TaskStatus.valueOf(status);
 
@@ -81,7 +97,7 @@ public class TaskApi {
 
     @PatchMapping("/{taskId}/priority")
     public ResponseEntity<?> updatedPriority(@PathVariable("taskId") UUID id,
-                                             @RequestBody Map<String, String> request){
+                                             @RequestBody Map<String, String> request) {
 
         String priority = request.get("priority");
         TaskPriority taskPriority = TaskPriority.valueOf(priority);
