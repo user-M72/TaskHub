@@ -1,6 +1,7 @@
 package App.TaskHub.api;
 
 import App.TaskHub.dto.req.LoginRequest;
+import App.TaskHub.dto.req.ProfileUpdateRequest;
 import App.TaskHub.dto.req.user.UserRequest;
 import App.TaskHub.dto.res.login.LoginResponse;
 import App.TaskHub.dto.res.user.UserResponse;
@@ -60,5 +61,12 @@ public class UserApi {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PutMapping("/{userId}/profile")
+    public ResponseEntity<?> profileUpdate(@PathVariable("userId") UUID id,
+                                           @RequestBody ProfileUpdateRequest request){
+        return ResponseEntity.ok(userService.updateProfile(id, request));
+
     }
 }

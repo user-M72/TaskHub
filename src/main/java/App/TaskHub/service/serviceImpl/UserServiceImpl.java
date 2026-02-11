@@ -1,6 +1,7 @@
 package App.TaskHub.service.serviceImpl;
 
 import App.TaskHub.dto.req.LoginRequest;
+import App.TaskHub.dto.req.ProfileUpdateRequest;
 import App.TaskHub.dto.req.user.UserRequest;
 import App.TaskHub.dto.res.login.LoginResponse;
 import App.TaskHub.dto.res.user.UserResponse;
@@ -103,5 +104,56 @@ public class UserServiceImpl implements UserService {
         }
 
         return mapper.toLoginDto(user);
+    }
+
+    @Override
+    @Transactional
+    public UserResponse updateProfile(UUID id, ProfileUpdateRequest updateRequest) {
+
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found by id: " + id));
+
+
+        if (updateRequest.username() != null && !updateRequest.username().isEmpty()) {
+
+            if (!user.getUsername().equals(updateRequest.username())) {
+                if (repository.existsByUsername(updateRequest.username())) {
+                    throw new RuntimeException("Username already exists");
+                }
+                user.setUsername(updateRequest.username());
+            }
+        }
+
+
+        if (updateRequest.email() != null && !updateRequest.email().isEmpty()) {
+            if (!user.getEmail().equals(updateRequest.email())) {
+                if (repository.existsByEmail(updateRequest.email())) {
+                    throw new RuntimeException("Email already exists");
+                }
+                user.setEmail(updateRequest.email());
+            }
+        }
+
+
+        if (updateRequest.currentPassword() != null && updateRequest.newPassword() != null) {
+
+            if (!passwordEncoder.matches(updateRequest.currentPassword(), user.getPassword())) {
+                throw new RuntimeException("Current password is incorrect");
+            }
+
+
+            if (updateRequest.newPassword().length() < 6) {
+                throw new RuntimeException("New password must be at least 6 characters long");
+            }
+
+
+            user.setPassword(passwordEncoder.encode(updateRequest.newPassword()));
+        }
+
+
+        User updatedUser = repository.save(user);
+
+
+        return mapper.toDto(updatedUser);
     }
 }

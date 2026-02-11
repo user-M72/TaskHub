@@ -1,6 +1,7 @@
 package App.TaskHub.service;
 
 import App.TaskHub.dto.req.LoginRequest;
+import App.TaskHub.dto.req.ProfileUpdateRequest;
 import App.TaskHub.dto.req.user.UserRequest;
 import App.TaskHub.dto.res.login.LoginResponse;
 import App.TaskHub.dto.res.user.UserResponse;
@@ -24,4 +25,6 @@ public interface UserService {
     UserResponse register(UserRequest request);
 
     LoginResponse login(LoginRequest request);
+
+    UserResponse updateProfile(UUID id, ProfileUpdateRequest updateRequest);
 }
