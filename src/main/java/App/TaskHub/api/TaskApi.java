@@ -32,7 +32,7 @@ public class TaskApi {
             @PathVariable UUID id,
             @ParameterObject
             @PageableDefault(
-                    sort = "createdDate",
+                    sort = {"dueDate"},
                     direction = Sort.Direction.DESC
             )
             Pageable pageable) {
@@ -45,7 +45,7 @@ public class TaskApi {
             @PathVariable UUID id,
             @ParameterObject
             @PageableDefault(
-                    sort = "createdDate",
+                    sort = {"dueDate"},
                     direction = Sort.Direction.DESC
             )
             Pageable pageable) {
