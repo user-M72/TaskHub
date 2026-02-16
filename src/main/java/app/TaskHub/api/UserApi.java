@@ -33,9 +33,8 @@ public class UserApi {
 
     @PostMapping
     public ResponseEntity<UserResponse> create(@RequestBody UserRequest request){
-//        UserResponse create = userService.create(request);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(create);
-        return null;
+        UserResponse create = userService.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(create);
     }
 
     @PutMapping("/{userId}")
