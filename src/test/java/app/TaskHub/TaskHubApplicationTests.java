@@ -1,10 +1,10 @@
-package App.TaskHub;
+package app.TaskHub;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TaskHubApplicationTests {
+class  TaskHubApplicationTests {
 
 	@Test
 	void contextLoads() {
