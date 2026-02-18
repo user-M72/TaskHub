@@ -13,12 +13,12 @@ import app.TaskHub.repository.RoleRepository;
 import app.TaskHub.repository.UserRepository;
 import app.TaskHub.service.serviceImpl.UserServiceImpl;
 import app.TaskHub.util.UpdateUserValidator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.access.method.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.Instant;
@@ -44,13 +44,25 @@ public class UserServiceTest {
     @Mock private RoleRepository roleRepository;
     @Mock private UpdateUserValidator validator;
 
-    @Test
-    void get_shouldWork() {
-        User user = new User();
-        List<User> users = List.of(user);
+    private UserResponse userResponse;
+    private final UUID roleId = UUID.randomUUID();
+    private final UUID userId = UUID.randomUUID();
 
-        UserResponse userResponse = new UserResponse(
-                UUID.randomUUID(),
+    UserRequest createRequest = new UserRequest(
+            "firstname",
+            "lastname",
+            "USERNAME",
+            "password",
+            "phone",
+            "",
+            List.of(roleId)
+    );
+
+    @BeforeEach
+    void setUp() {
+
+        userResponse  = new UserResponse(
+                userId,
                 "",
                 "",
                 "",
@@ -59,6 +71,13 @@ public class UserServiceTest {
                 "",
                 Set.of()
         );
+    }
+
+    @Test
+    void get_shouldWork() {
+        User user = new User();
+        List<User> users = List.of(user);
+
         List<UserResponse> expected = List.of(userResponse);
 
         when(repository.findAll()).thenReturn(users);
@@ -74,56 +93,18 @@ public class UserServiceTest {
 
     @Test
     void getById_shouldWork() {
-//        UUID id = UUID.randomUUID();
-//
-//        User user = new User();
-//        user.setId(id);
-//
-//        UserResponse response = new UserResponse(
-//                id,
-//                "John",
-//                "Doe",
-//                "joe",
-//                "pass",
-//                "123456",
-//                "test@mail.com",
-//                Set.of()
-//        );
-//
-//        when(repository.findById(id)).thenReturn(Optional.of(user));
-//        when(mapper.toDto(user)).thenReturn(response);
-//
-//        UserResponse result = testedService.getById(id);
-//
-//        assertNotNull(result);
-//        assertEquals(id, result.id());
-//
-//        verify(repository).findById(id);
-//        verify(mapper).toDto(user);
-
         UUID id = UUID.randomUUID();
 
         User user = new User();
-        user.setId(id);
-
-        UserResponse response = new UserResponse(
-                id,
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                Set.of()
-        );
+        user.setId(userId);
 
         when(repository.findById(id)).thenReturn(Optional.of(user));
-        when(mapper.toDto(user)).thenReturn(response);
+        when(mapper.toDto(user)).thenReturn(userResponse);
 
         UserResponse result = testedService.getById(id);
 
         assertNotNull(result);
-        assertEquals(id, result.id());
+        assertEquals(userId, result.id());
 
         verify(repository).findById(id);
         verify(mapper).toDto(user);
@@ -147,7 +128,6 @@ public class UserServiceTest {
 
     @Test
     void create_shouldWork() {
-        UUID roleId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
         String encodedPassword = "encoded";
 
@@ -157,24 +137,15 @@ public class UserServiceTest {
 
         Set<Role> roleSet = Set.of(role);
 
-        UserRequest request = new UserRequest(
-                "firstname",
-                "lastname",
-                "USERNAME",
-                "password",
-                "phone",
-                "",
-                List.of(roleId)
-        );
 
         UserResponse expected = new UserResponse(
                 userId,
-                request.firstName(),
-                request.lastName(),
-                request.username(),
+                createRequest.firstName(),
+                createRequest.lastName(),
+                createRequest.username(),
                 encodedPassword,
-                request.phoneNumber(),
-                request.email(),
+                createRequest.phoneNumber(),
+                createRequest.email(),
                 roleSet
         );
 
@@ -185,20 +156,20 @@ public class UserServiceTest {
         user.setUpdatedBy(userId);
         user.setUpdatedDate(Instant.now());
 
-        when(roleService.getByIdList(request.roleIds()))
+        when(roleService.getByIdList(createRequest.roleIds()))
                 .thenReturn(roleSet);
-        when(passwordEncoder.encode(request.password())).thenReturn(encodedPassword);
-        when(mapper.toEntity(request, roleSet, encodedPassword)).thenReturn(user);
+        when(passwordEncoder.encode(createRequest.password())).thenReturn(encodedPassword);
+        when(mapper.toEntity(createRequest, roleSet, encodedPassword)).thenReturn(user);
         when(repository.save(user)).thenAnswer(i -> i.getArgument(0));
         when(mapper.toDto(user)).thenReturn(expected);
 
-        UserResponse actual = testedService.create(request);
+        UserResponse actual = testedService.create(createRequest);
 
         assertEquals(expected, actual);
 
-        verify(roleService).getByIdList(request.roleIds());
-        verify(passwordEncoder).encode(request.password());
-        verify(mapper).toEntity(request, roleSet, encodedPassword);
+        verify(roleService).getByIdList(createRequest.roleIds());
+        verify(passwordEncoder).encode(createRequest.password());
+        verify(mapper).toEntity(createRequest, roleSet, encodedPassword);
         verify(repository).save(user);
         verify(mapper).toDto(user);
     }
