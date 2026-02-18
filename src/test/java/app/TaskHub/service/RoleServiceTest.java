@@ -92,6 +92,17 @@ public class RoleServiceTest {
     }
 
     @Test
+    void getById_shouldThrow_whenRoleNotFound(){
+
+        when(roleRepository.findById(roleId)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class,
+                ()->testService.getById(roleId));
+
+        verify(roleRepository).findById(roleId);
+    }
+
+    @Test
     void create_shouldWork() {
 
         when(roleMapper.toEntity(request)).thenReturn(role);
