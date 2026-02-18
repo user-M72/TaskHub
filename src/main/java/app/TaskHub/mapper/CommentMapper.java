@@ -5,6 +5,7 @@ import app.TaskHub.dto.res.comment.CommentResponse;
 import app.TaskHub.entity.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
 
@@ -20,5 +21,9 @@ public interface CommentMapper {
     @Mapping(source = "task.id", target = "taskId")
     @Mapping(source = "user.id", target = "userId")
     CommentResponse toDto(Comment comment);
+
+    @Mapping(target = "task.id", source = "request.taskId")
+    @Mapping(target = "user.id", source = "request.userId")
+    void updateFromDto(CommentRequest request, @MappingTarget Comment comment);
 
 }

@@ -59,7 +59,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse updated(UUID id, CommentRequest request) {
-        return null;
+        Comment comment = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found by id: " + id));
+        mapper.updateFromDto(request, comment);
+        return mapper.toDto(repository.save(comment));
     }
 
     @Override
