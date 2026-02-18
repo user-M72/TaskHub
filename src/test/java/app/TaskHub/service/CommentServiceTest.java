@@ -95,6 +95,16 @@ public class CommentServiceTest {
         verify(commentRepository).findById(commentId);
         verify(mapper).toDto(comment);
     }
+    
+    @Test
+    void getById_shouldThrow_whenCommentNotFound(){
+        when(commentRepository.findById(commentId)).thenReturn(Optional.empty());
+
+        assertThrows(RuntimeException.class,
+                ()-> testService.getById(commentId));
+
+        verify(commentRepository).findById(commentId);
+    }
 
     @Test
     void created_shouldWork() {
