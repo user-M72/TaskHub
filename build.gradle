@@ -46,14 +46,23 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	// TESTS
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
-	testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+//	testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
+//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	testImplementation 'org.testcontainers:postgresql'
+//	testImplementation 'org.testcontainers:postgresql'
 
 	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 	implementation 'org.glassfish:jakarta.el:4.0.2'
+
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.testcontainers:mockserver")
+	testImplementation("org.testcontainers:postgresql")
+	testImplementation("org.springframework.restdocs:spring-restdocs-restassured")
+	testImplementation("org.testcontainers:testcontainers")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.wiremock.integrations:wiremock-spring-boot:3.7.0")
+
 }
 tasks.test {
 	useJUnitPlatform()

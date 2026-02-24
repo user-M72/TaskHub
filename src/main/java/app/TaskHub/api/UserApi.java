@@ -15,8 +15,10 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/users/v1")
+@RequestMapping(UserApi.USER_BASE_URL)
 public class UserApi {
+
+    public static final String USER_BASE_URL = "api/users/v1";
 
     @Autowired
     private UserService userService;
