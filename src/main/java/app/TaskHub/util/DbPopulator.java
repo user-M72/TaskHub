@@ -35,6 +35,9 @@ public class DbPopulator implements CommandLineRunner {
             Role admin = roleRepository.findByName(Roles.ADMIN)
                     .orElseThrow(() -> new RuntimeException("Admin role not found"));
 
+            Role userRole = roleRepository.findByName(Roles.USER)
+                    .orElseThrow(() -> new RuntimeException("User role not found"));
+
             userService.create(
                     new UserRequest(
                             "Admin",
@@ -44,6 +47,14 @@ public class DbPopulator implements CommandLineRunner {
                             "00000",
                             "admin@gmail.com",
                             List.of(admin.getId())
+                    )
+            );
+
+            userService.create(
+                    new UserRequest(
+                            "User", "User", "user", "user",  // ← добавь это
+                            "11111", "user@gmail.com",
+                            List.of(userRole.getId())
                     )
             );
         }

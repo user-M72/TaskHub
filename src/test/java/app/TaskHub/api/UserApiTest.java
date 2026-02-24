@@ -23,7 +23,6 @@ public class UserApiTest extends TaskHubApplicationTests {
                 .post(USER_BASE_URL + "/login")
                 .then()
                 .statusCode(HttpStatus.OK.value());
-//                .body("$", not(hasKey("token")));
     }
 
 }
