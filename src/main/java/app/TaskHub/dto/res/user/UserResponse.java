@@ -1,6 +1,6 @@
 package app.TaskHub.dto.res.user;
 
-import app.TaskHub.entity.Role;
+import app.TaskHub.dto.res.role.RoleResponse;
 
 import java.util.Set;
 import java.util.UUID;
@@ -14,6 +14,6 @@ public record UserResponse(
         String password,
         String phoneNumber,
         String email,
-        Set<Role> roles
+        Set<RoleResponse> roles
 
 ) {}
