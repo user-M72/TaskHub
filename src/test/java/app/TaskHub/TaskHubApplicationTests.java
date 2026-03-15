@@ -51,39 +51,39 @@ public abstract class TaskHubApplicationTests {
 						.setContentType(ContentType.JSON)
 						.build();
 
-		userRequestSpecification =
-				new RequestSpecBuilder()
-						.addFilter(new RequestLoggingFilter())
-						.addFilter(new ResponseLoggingFilter())
-						.addHeader("Authorization", getUserId(USER))  // ← userId вместо token
-						.setPort(port)
-						.setContentType(ContentType.JSON)
-						.build();
-
-		adminRequestSpecification =
-				new RequestSpecBuilder()
-						.addFilter(new RequestLoggingFilter())
-						.addFilter(new ResponseLoggingFilter())
-						.addHeader("Authorization", getUserId(ADMIN))  // ← userId вместо token
-						.setPort(port)
-						.setContentType(ContentType.JSON)
-						.build();
+//		userRequestSpecification =
+//				new RequestSpecBuilder()
+//						.addFilter(new RequestLoggingFilter())
+//						.addFilter(new ResponseLoggingFilter())
+//						.addHeader("Authorization", getUserId(USER))  // ← userId вместо token
+//						.setPort(port)
+//						.setContentType(ContentType.JSON)
+//						.build();
+//
+//		adminRequestSpecification =
+//				new RequestSpecBuilder()
+//						.addFilter(new RequestLoggingFilter())
+//						.addFilter(new ResponseLoggingFilter())
+//						.addHeader("Authorization", getUserId(ADMIN))  // ← userId вместо token
+//						.setPort(port)
+//						.setContentType(ContentType.JSON)
+//						.build();
 	}
 
-	private String getUserId(String role) {
-		LoginRequest adminRequest = new LoginRequest("admin", "admin");
-		LoginRequest userRequest = new LoginRequest(USER_USERNAME, USER_USERNAME);
-
-		String userIdStr = given(publicRequestSpecification)
-				.body(role.equals(ADMIN) ? adminRequest : userRequest)
-				.when()
-				.post(USER_BASE_URL + "/login")
-				.then()
-				.statusCode(HttpStatus.OK.value())
-				.extract()
-				.path("id")
-				.toString();  // ← конвертируй в String
-
-		return userIdStr;
-	}
+//	private String getUserId(String role) {
+//		LoginRequest adminRequest = new LoginRequest("admin", "admin");
+//		LoginRequest userRequest = new LoginRequest(USER_USERNAME, USER_USERNAME);
+//
+//		String userIdStr = given(publicRequestSpecification)
+//				.body(role.equals(ADMIN) ? adminRequest : userRequest)
+//				.when()
+//				.post(USER_BASE_URL + "/login")
+//				.then()
+//				.statusCode(HttpStatus.OK.value())
+//				.extract()
+//				.path("id")
+//				.toString();  // ← конвертируй в String
+//
+//		return userIdStr;
+//	}
 }
